@@ -40,11 +40,13 @@ public class GameProgram extends Application {
         restart.setText("Nowa rozgrywka");
         restart.setOnAction((e) -> {
             if(e.isConsumed()) {
-                //gameSatrter(restartGame);
+                restartGame();
                 System.out.println("Gramy od nowa");
             }
         });
+    }
 
+    private void restartGame() {
     }
 
     public static void main(String[] args) {
