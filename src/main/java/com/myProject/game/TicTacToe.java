@@ -45,7 +45,7 @@ public class TicTacToe extends Application {
         }
         //pion
         for (int x = 0; x < 3; x++) {
-            combos.add(new Combo(board[x][0], board[x][1], board[x][3]));
+            combos.add(new Combo(board[x][0], board[x][0], board[x][0]));
         }
         //przekątne
         combos.add(new Combo(board[0][0], board[1][1], board[2][2]));
