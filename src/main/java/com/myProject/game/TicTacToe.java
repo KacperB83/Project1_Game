@@ -1,5 +1,8 @@
 package com.myProject.game;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 
@@ -9,10 +12,12 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,18 +26,19 @@ public class TicTacToe extends Application {
 
     private boolean playable = true;
     private boolean turnX = true;
-    private Tile[][] board = new Tile[3][3];
+    private Tile[][] board = new Tile[5][5];
     private List<Combo> combos = new ArrayList<>();
+    private Pane root = new Pane();
 
     private Parent createContent() {
-        Pane root = new Pane();
-        root.setPrefSize(600, 600);
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
+        root.setPrefSize(750, 750);
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 5; j++) {
                 Tile tile = new Tile();
-                tile.setTranslateX(j * 200);
-                tile.setTranslateY(i* 200);
+                tile.setTranslateX(j * 150);
+                tile.setTranslateY(i* 150);
 
                 root.getChildren().add(tile);
 
@@ -40,16 +46,16 @@ public class TicTacToe extends Application {
             }
         }
         //poziom
-        for (int y = 0; y < 3; y++) {
-            combos.add(new Combo(board[0][y], board[0][y], board[0][y]));
+        for (int y = 0; y < 5; y++) {
+            combos.add(new Combo(board[0][y], board[0][y], board[0][y], board[0][y], board[0][y]));
         }
         //pion
-        for (int x = 0; x < 3; x++) {
-            combos.add(new Combo(board[x][0], board[x][0], board[x][0]));
+        for (int x = 0; x < 5; x++) {
+            combos.add(new Combo(board[x][0], board[x][0], board[x][0], board[x][0], board[x][0]));
         }
         //przekątne
-        combos.add(new Combo(board[0][0], board[1][1], board[2][2]));
-        combos.add(new Combo(board[2][0], board[1][1], board[0][2]));
+        combos.add(new Combo(board[0][0], board[1][1], board[2][2], board[3][3], board[4][4]));
+        combos.add(new Combo(board[4][0], board[3][1], board[2][2], board[1][3], board[0][4]));
         return root;
     }
 
@@ -63,9 +69,25 @@ public class TicTacToe extends Application {
         for (Combo combo : combos) {
             if (combo.isComplete()) {
                 playable = false;
+                playWinAnimation(combo);
                 break;
             }
         }
+    }
+    private void playWinAnimation (Combo combo) {
+        Line line = new Line();
+        line.setStartX(combo.tiles[0].getCenterX());
+        line.setStartY(combo.tiles[0].getCenterY());
+        line.setEndX(combo.tiles[0].getCenterX());
+        line.setEndY(combo.tiles[0].getCenterY());
+
+        root.getChildren().add(line);
+
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(1),
+                new KeyValue(line.endXProperty(), combo.tiles[4].getCenterX()),
+                new KeyValue(line.endYProperty(), combo.tiles[4].getCenterY())));
+        timeline.play();
     }
 
     private class Combo {
@@ -85,11 +107,11 @@ public class TicTacToe extends Application {
         private Text text = new Text();
 
         public Tile() {
-            Rectangle border = new Rectangle(200, 200);
+            Rectangle border = new Rectangle(150, 150);
             border.setFill(null);
             border.setStroke(Color.BLACK);
 
-            text.setFont(Font.font(72));
+            text.setFont(Font.font(46));
 
             setAlignment(Pos.CENTER);
             getChildren().addAll(border, text);
@@ -110,6 +132,12 @@ public class TicTacToe extends Application {
                     checkState();
                 }
             });
+        }
+        public double getCenterX() {
+            return getTranslateX() + 75;
+        }
+        public double getCenterY() {
+            return getTranslateY() + 75;
         }
 
         public String getValue() {
