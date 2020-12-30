@@ -5,12 +5,12 @@ plugins {
 
 javafx {
     version = "11.0.2"
-    modules = [ 'javafx.controls' ]
+    modules = ['javafx.controls']
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
-mainClassName = 'com.kodilla.blackjack.Game'
+mainClassName = 'com.myProject.game.TicTacToe'
 
 repositories {
     mavenCentral()
