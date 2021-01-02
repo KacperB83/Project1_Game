@@ -1,3 +1,7 @@
+com/myProject/game/TicTacToe4.java
+ com.myProject.game.TicTacToe4
+ com.myProject.game.TicTacToe4$Combo
+ com.myProject.game.TicTacToe4$Tile
 com/myProject/game/TicTacToe.java
  com.myProject.game.TicTacToe
  com.myProject.game.TicTacToe$Combo
